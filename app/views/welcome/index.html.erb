@@ -1,0 +1,7 @@
+<h1>Welcome to formbuilder</h1>
+
+<%= link_to("create new form", new_form_path)%>
+<br/>
+<% if user_signed_in? %>
+<%= link_to("list my forms", forms_path)%>
+<% end %>

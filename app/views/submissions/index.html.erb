@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Submissions</h1>
+
+<table>
+  <thead>
+    <tr>
+	  <th>ID</th>
+      <th>Form</th>
+      <th>Answers</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @submissions.each do |submission| %>
+      <tr>
+	    <td><%= submission.id %></td>
+		<td><%= @form.title %></td>
+        <td>
+			<div style="margin-bottom:10px;border-bottom:1px solid #000;padding:10px;">
+				<% @form.questions.each do |question|%>
+					<div style="margin-bottom:3px;">
+						<strong><%= question.title %></strong><br/>
+						<span><%= submission.answers.keys.include?(question.id.to_s) ? submission.answers[question.id.to_s] : "" %></span>
+					</div>
+				<% end %>
+			</div>
+		</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'back', form_path(@form)%>
+
+
+
+

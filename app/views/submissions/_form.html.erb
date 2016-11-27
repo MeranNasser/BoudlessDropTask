@@ -1,0 +1,52 @@
+<%= form_for(@submission, url: form_submissions_path(@form, @submission)) do |f| %>
+  <% if @submission.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@submission.errors.count, "error") %> prohibited this submission from being saved:</h2>
+
+      <ul>
+      <% @submission.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <strong>Form</strong><br>
+    <%= f.label @form.title %>
+	<%= f.hidden_field :form_id, value: @form.id %>
+  </div>
+  <div class="field">
+    <% @form.questions.each do |question| %>
+	  <div>
+        <strong><%= question.title  %></strong>
+		<% if question.answer_type == "text" %>
+		  <div class="answer">
+		    <%= text_field_tag("answers[" + question.id.to_s + "]") %>
+		  </div>
+		<% elsif question.answer_type == "radio" %>
+		  <div class="answer">
+		    <% question.answers.each do |answer| %>
+              <%= radio_button_tag("answers[" + question.id.to_s + "]", answer.text) %>
+			  <%= f.label answer.text%>
+			<% end %>
+		  </div>
+		<% elsif question.answer_type == "dropdown" %>
+		  <div class="answer">
+		    <%= select_tag("answers[" + question.id.to_s + "]", options_for_select(question.answers.map(&:text)), prompt: "Select") %>
+		  </div>
+		<% elsif question.answer_type == "checkbox" %>
+			<div class="answer">
+				<% question.answers.each do |answer| %>
+				  <%= check_box_tag("answers[" + question.id.to_s + "][]", answer.text) %>
+				  <%= f.label answer.text%>
+				<% end %>
+			  </div>
+		<% end %>
+	  </div>
+	<% end %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

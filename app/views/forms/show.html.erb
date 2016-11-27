@@ -1,0 +1,56 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @form.title %>
+</p>
+
+<div id="questions">
+  <strong>Questions</strong>
+  <table>
+    <thead>
+	  <tr>
+		<th>id</th>
+		<th>Title</th>
+		<th>Answer Type</th>
+		<th>Answers</th>
+		<th></th>
+		<th></th>
+	  </tr>
+	</thead>
+	<tbody>
+	<% @form.questions.each do |question| %>
+		<tr>
+			<td><%= question.id %></td>
+			<td><%= question.title %></td>
+			<td><%= question.answer_type %></td>
+			<td>
+			   <% if  question.answer_type != 'text' %>
+			     <ul>
+				   <% question.answers.each do |answer| %>
+				     <li><%= answer.text %> <%= link_to 'Delete', form_question_answer_path(@form, question, answer), method: :delete  %></li>
+				   <% end %>
+				 </ul>
+			   <% end %>
+			</td>
+			<td>
+				<% if  question.answer_type != 'text' %>
+					<%= link_to 'New Answer', new_form_question_answer_path(@form, question) %>
+				<% end %>
+			</td>
+			<td><%= link_to 'Edit', edit_form_question_path(@form, question) %></td>
+			<td><%= link_to 'Delete', form_question_path(@form, question), method: :delete  %></td>
+		</tr>
+	<% end %>
+    </tbody>
+  </table>
+</div>
+
+<p>Form submission Link: <%= new_form_submission_url(@form) %></p>
+<%= link_to 'New Question', new_form_question_path(@form) %> 
+<br>
+<%= link_to 'veiw submissions', form_submissions_path(@form) %>
+<br>
+<%= link_to 'Edit', edit_form_path(@form) %> 
+<br>
+<%= link_to 'Back', forms_path %>

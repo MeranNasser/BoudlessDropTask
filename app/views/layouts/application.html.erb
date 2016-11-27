@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Formbuilder</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<% unless @controller == "submissions" and ["new", "create"].include?(@action) %>
+	<% if user_signed_in? %>
+	  <p>You are signed in as <%= current_user.email %></p>
+	  <%= link_to("log out", destroy_user_session_path, method: :delete) %>
+	  <br/>
+	<%  else %>
+	  <%= link_to("sign in", new_user_session_path) %>
+	  <br/>
+	  <%= link_to("sign up", new_user_registration_path) %>
+	  <br/>
+	<% end %>
+<% end %>
+<%= yield %>
+
+</body>
+</html>

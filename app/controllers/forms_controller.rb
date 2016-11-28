@@ -5,7 +5,7 @@ class FormsController < ApplicationController
   # GET /forms
   # GET /forms.json
   def index
-    @forms = Form.all
+    @forms = Form.where(user_id: current_user.id)
   end
 
   # GET /forms/1
